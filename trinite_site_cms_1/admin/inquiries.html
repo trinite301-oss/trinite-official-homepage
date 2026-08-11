@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>문의함 · TRINITE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+:root{--ink:#151515;--sub:#5c5c5c;--mut:#9a9a9a;--paper:#fff;--soft:#f6f6f4;--soft2:#eeeeeb;
+ --line:rgba(20,20,20,.12);--ok:#127a4b;--warn:#b23b3b;--maxw:920px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;color:var(--ink);background:var(--soft);
+ line-height:1.6;letter-spacing:-.012em;-webkit-font-smoothing:antialiased}
+.mono{font-family:"Space Grotesk",monospace}
+button{font:inherit;cursor:pointer}input{font:inherit}
+
+/* lock */
+.lock{position:fixed;inset:0;z-index:50;background:var(--soft);display:flex;align-items:center;justify-content:center;padding:24px}
+.lock.hide{display:none}
+.lockbox{background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(28px,4vw,44px);width:100%;max-width:400px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.08)}
+.lockbox .lg{font-family:"Space Grotesk";font-weight:600;letter-spacing:.14em;font-size:22px}
+.lockbox .sub{color:var(--mut);font-size:13.5px;margin:8px 0 26px}
+.lockbox input{width:100%;border:1px solid var(--line);padding:13px 15px;border-radius:11px;text-align:center;font-size:16px;letter-spacing:.05em}
+.lockbox input:focus{outline:none;border-color:var(--ink)}
+.lockbox .go{width:100%;margin-top:12px;background:var(--ink);color:#fff;border:0;padding:14px;border-radius:11px;font-weight:600;font-size:15px}
+.lockbox .go:disabled{opacity:.5}
+.lockbox .err{color:var(--warn);font-size:13px;min-height:18px;margin-top:12px}
+
+/* app */
+.top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
+ display:flex;align-items:center;justify-content:space-between;padding:14px clamp(18px,4vw,32px)}
+.top .brand{font-family:"Space Grotesk";font-weight:600;letter-spacing:.12em;font-size:17px}
+.top .brand span{font-family:"Pretendard Variable";font-weight:500;color:var(--mut);font-size:13px;margin-left:8px;letter-spacing:-.01em}
+.top .acts{display:flex;gap:8px}
+.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:8px 14px;border-radius:9px;font-size:13px;font-weight:500}
+.btn:hover{border-color:var(--ink)}
+.btn.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(20px,3vw,32px) clamp(18px,4vw,32px) 80px}
+.head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px}
+.head h1{font-size:1.4rem;font-weight:600;letter-spacing:-.03em}
+.head .cnt{font-family:"Space Grotesk";color:var(--mut);font-size:14px}
+.list{display:flex;flex-direction:column;gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.card .r1{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card .who{font-size:1.05rem;font-weight:600}
+.card .who .co{color:var(--sub);font-weight:500;font-size:.9rem;margin-left:8px}
+.card .date{font-family:"Space Grotesk";font-size:12px;color:var(--mut);white-space:nowrap}
+.card .meta{display:flex;flex-wrap:wrap;gap:8px 16px;margin:10px 0;font-size:13.5px;color:var(--sub)}
+.card .meta a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.card .tag{display:inline-block;font-size:11.5px;font-weight:600;color:var(--sub);background:var(--soft2);border-radius:100px;padding:3px 10px}
+.card .msg{margin-top:6px;font-size:14.5px;white-space:pre-wrap;border-top:1px dashed var(--line);padding-top:12px}
+.state{text-align:center;padding:60px 20px;color:var(--mut);font-size:14.5px;border:1.5px dashed var(--line);border-radius:14px;background:#fff}
+.note{margin-top:22px;font-size:12.5px;color:var(--mut);line-height:1.7}
+.note code{font-family:"Space Grotesk";background:#fff;border:1px solid var(--line);padding:1px 5px;border-radius:4px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:12px 22px;border-radius:100px;font-size:13.5px;font-weight:500;z-index:60;transition:.4s cubic-bezier(.22,.61,.36,1);opacity:0}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+</style>
+</head>
+<body>
+
+<div class="lock" id="lock">
+  <div class="lockbox">
+    <div class="lg">TRINITE</div>
+    <div class="sub">문의함 · 비밀번호를 입력하세요</div>
+    <input type="password" id="pw" placeholder="비밀번호" autocomplete="current-password">
+    <button class="go" id="go">확인</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div class="top">
+  <div class="brand">TRINITE <span>문의함</span></div>
+  <div class="acts">
+    <a class="btn" href="./index.html">프로젝트 관리</a>
+    <button class="btn dark" id="refresh">↻ 새로고침</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="head"><h1>받은 문의</h1><span class="cnt" id="cnt"></span></div>
+  <div class="list" id="list"></div>
+  <div class="state" id="state" style="display:none"></div>
+  <div class="note">
+    문의 데이터는 Netlify Forms에 저장되며, 이 페이지는 서버리스 함수(<code>get-inquiries</code>)를 통해 안전하게 불러옵니다.
+    접근 토큰은 서버 환경변수에만 있고 이 화면에는 노출되지 않습니다.
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+let PASS="";
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),2200);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtDate(iso){try{const d=new Date(iso);const p=n=>String(n).padStart(2,'0');
+  return `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;}catch(e){return iso||'';}}
+
+function setState(msg){const s=$("#state");if(msg){s.style.display="block";s.textContent=msg;$("#list").innerHTML="";$("#cnt").textContent="";}else{s.style.display="none";}}
+
+function render(subs){
+  $("#cnt").textContent=subs.length?`${subs.length}건`:"";
+  if(!subs.length){setState("아직 받은 문의가 없습니다.");return;}
+  setState("");
+  // 최신순 정렬
+  subs.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  $("#list").innerHTML=subs.map(s=>{
+    const d=s.data||{};
+    const email=d.email?`<a href="mailto:${esc(d.email)}">${esc(d.email)}</a>`:'';
+    const phone=d.phone?esc(d.phone):'';
+    const svc=d.service?`<span class="tag">${esc(d.service)}</span>`:'';
+    const meta=[email,phone].filter(Boolean).join('　·　');
+    return `<div class="card">
+      <div class="r1"><div class="who">${esc(d.name||'(이름 없음)')}${d.company?`<span class="co">${esc(d.company)}</span>`:''}</div>
+      <div class="date">${fmtDate(s.created_at)}</div></div>
+      <div class="meta">${meta}${svc?'　'+svc:''}</div>
+      ${d.message?`<div class="msg">${esc(d.message)}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+async function load(){
+  setState("불러오는 중…");
+  try{
+    const r=await fetch("/.netlify/functions/get-inquiries",{headers:{"x-inquiry-pass":PASS}});
+    if(r.status===401){throw {unauth:true};}
+    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||("오류 "+r.status));}
+    const j=await r.json();
+    $("#lock").classList.add("hide");
+    render(j.submissions||[]);
+  }catch(err){
+    if(err&&err.unauth){$("#lock").classList.remove("hide");$("#err").textContent="비밀번호가 올바르지 않습니다.";PASS="";return;}
+    $("#lock").classList.add("hide");
+    setState("문의를 불러오지 못했습니다: "+(err.message||err)+"\n(환경변수 설정 또는 배포 상태를 확인하세요)");
+  }
+}
+
+$("#go").addEventListener("click",()=>{
+  const v=$("#pw").value;if(!v){$("#err").textContent="비밀번호를 입력하세요";return;}
+  PASS=v;$("#err").textContent="";load();
+});
+$("#pw").addEventListener("keydown",e=>{if(e.key==="Enter")$("#go").click();});
+$("#refresh").addEventListener("click",()=>{if(PASS)load();else toast("먼저 로그인하세요");});
+setTimeout(()=>$("#pw").focus(),100);
+</script>
+</body>
+</html>

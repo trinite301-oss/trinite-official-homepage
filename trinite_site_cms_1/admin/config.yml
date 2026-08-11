@@ -1,0 +1,42 @@
+# =========================================================
+#  TRINITE — CMS 설정 (Sveltia CMS · Decap 호환)
+#  ▶ 아래 repo 값을 본인의 GitHub 저장소로 반드시 바꾸세요.
+#     예) trinite-studio/trinite-site
+# =========================================================
+backend:
+  name: github
+  repo: your-github-id/trinite   # ← "your-github-id" 를 본인 GitHub 아이디로 변경
+  branch: main                   # 기본 브랜치명 (main 또는 master)
+
+# UI 언어
+locale: ko
+
+# 이미지 업로드 위치
+media_folder: "images/uploads"        # 저장소 실제 경로
+public_folder: "/images/uploads"      # 웹에서 접근하는 경로
+
+# 저장 시 커밋 메시지
+site_url: https://trinitekr.com
+display_url: https://trinitekr.com
+
+collections:
+  - name: content
+    label: 사이트 콘텐츠
+    files:
+      - name: projects
+        label: 프로젝트
+        file: data/projects.json
+        description: "프로젝트를 추가·수정·삭제하고 순서를 바꿀 수 있습니다. 저장하면 홈페이지에 자동 반영됩니다."
+        fields:
+          - label: 프로젝트 목록
+            name: projects
+            label_singular: 프로젝트
+            widget: list
+            summary: "{{fields.title}}  ·  {{fields.cat}}"
+            fields:
+              - { label: 제목, name: title, widget: string }
+              - { label: 카테고리, name: cat, widget: select, options: ["브랜딩", "캠페인", "콘텐츠", "공간", "마케팅"], default: "브랜딩" }
+              - { label: 클라이언트, name: client, widget: string, required: false }
+              - { label: 설명, name: desc, widget: text, required: false }
+              - { label: 대표 이미지, name: img, widget: image, required: false, allow_multiple: false }
+              - { label: 링크 URL, name: url, widget: string, required: false, hint: "비우면 문의 섹션으로 이동합니다. 예: https://..." }

@@ -1,0 +1,10 @@
+{
+  "projects": [
+    { "cat": "브랜딩", "title": "아틀리에 리브랜딩", "client": "라이프스타일 편집숍", "desc": "", "img": "", "url": "" },
+    { "cat": "캠페인", "title": "시즌 캠페인 필름", "client": "뷰티 브랜드", "desc": "", "img": "", "url": "" },
+    { "cat": "콘텐츠", "title": "소셜 콘텐츠 시스템", "client": "F&B 프랜차이즈", "desc": "", "img": "", "url": "" },
+    { "cat": "공간", "title": "플래그십 공간 브랜딩", "client": "패션 리테일", "desc": "", "img": "", "url": "" },
+    { "cat": "브랜딩", "title": "스타트업 BI 구축", "client": "테크 스타트업", "desc": "", "img": "", "url": "" },
+    { "cat": "마케팅", "title": "그로스 캠페인", "client": "이커머스", "desc": "", "img": "", "url": "" }
+  ]
+}
