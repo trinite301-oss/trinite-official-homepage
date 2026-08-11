@@ -5,7 +5,7 @@
 # =========================================================
 backend:
   name: github
-  repo:trubute301-oss/trinite   # ← "your-github-id" 를 본인 GitHub 아이디로 변경
+  repo:trinite301-oss/trinite   # ← "your-github-id" 를 본인 GitHub 아이디로 변경
   branch: main                   # 기본 브랜치명 (main 또는 master)
 
 # UI 언어
